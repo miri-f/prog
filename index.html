@@ -1,0 +1,151 @@
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>הגרלת שבת</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #edede9; /* צבע רקע פסטלי */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #46494c; /* צבע פסטלי */
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        form {
+            background-color: #fdfffc;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            max-width: 600px;
+            position: relative;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #333;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 1em;
+            transition: border 0.3s;
+        }
+        input[type="text"]:focus {
+            border-color: #6c5ce7; /* צבע פוקוס פסטלי */
+            outline: none;
+        }
+        button {
+            background-color: #e71d36; /* צבע פסטלי */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1em;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2ec4b6; /* צבע פסטלי כהה להובר */
+        }
+        h2 {
+            color: #46494c; /* צבע פסטלי */
+            text-align: center;
+            margin-top: 40px;
+            font-size: 2em;
+
+
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px auto;
+            max-width: 400px;
+        }
+        li {
+            background-color: #bfc0c0; /* צבע פסטלי לרקע של הפריט ברשימה */
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: transform 0.3s;
+            display: flex; /* תצוגה גמישה */
+            justify-content: space-between; /* רווח בין התוכן לצ'ק בוקס */
+            align-items: center; /* מרכז את האלמנטים */
+        }
+        li:hover {
+            transform: scale(1.02);
+        }
+        strong {
+            font-size: 1.1em;
+            color: #e71d36
+        }
+        .winner {
+            color: #e71d36;
+            font-weight: bold;
+            font-size: 2em;
+            text-align: center;
+            margin-top: 20px;
+            position: relative;
+            padding: 10px;
+            border: 2px dashed #ffcc00;
+            border-radius: 10px;
+            animation: shine 1.5s infinite;
+        }
+        @keyframes shine {
+            0% { text-shadow: 0 0 5px rgba(255, 204, 0, 0.5), 0 0 10px rgba(255, 204, 0, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(255, 204, 0, 1), 0 0 30px rgba(255, 204, 0, 0.7); }
+            100% { text-shadow: 0 0 5px rgba(255, 204, 0, 0.5), 0 0 10px rgba(255, 204, 0, 0.5); }
+        }
+        .exclude-checkbox {
+            margin-right: 15px; /* רווח בין הצ'ק בוקס לטקסט */
+        }
+        .color{
+        color: ;
+        }
+    </style>
+</head>
+<body>
+    <h1>הגרלת שבת</h1>
+    <form method="post">
+        <label for="url">הכנס את הקישור:</label>
+        <input type="text" id="url" name="url" required>
+        <button type="submit">חפש</button>
+    </form>
+
+    <h2>תוצאות:</h2>
+    <form method="post">
+        <input type="hidden" name="url" value="{{ request.form['url'] }}">
+        <ul>
+            {% for result in results %}
+            <li>
+                <span><strong style="color:46494c">שם הניק:</strong> <strong class="username" >{{ result.username }}</strong>, <strong style="color:46494c">מספר:</strong> <strong class="number">{{ result.number }}</strong></span>
+                <input type="checkbox" class="exclude-checkbox" name="exclude" value="{{ result.username }}"> הסר
+            </li>
+            {% else %}
+                <li>אין תוצאות לחיפוש זה.</li>
+            {% endfor %}
+        </ul>
+        <button type="submit" name="draw">הגרלה</button>
+        {% if winner %}
+        <div class="winner">הזוכה בהגרלה הוא: <strong>{{ winner }}</strong></div>
+        {% endif %}
+    </form>
+
+</body>
+</html>
